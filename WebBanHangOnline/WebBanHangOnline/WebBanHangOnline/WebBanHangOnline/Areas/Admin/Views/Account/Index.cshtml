@@ -1,0 +1,110 @@
+﻿@model IEnumerable<WebBanHangOnline.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Quản lý tài khoản";
+}
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/home" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin" class="nav-link">@ViewBag.Title</a>
+        </li>
+    </ul>
+}
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Danh sách tài khoản</h3>
+
+            <div class="card-tools">
+                <a href="/admin/account/create" class="btn btn-success">Thêm mới</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên đăng nhập</th>
+                        <th>Email</th>
+                        <th>Tên đầy đủ</th>
+                        <th>Số điện thoại</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        var i = 1;
+                        foreach (var item in Model)
+                        {
+                            <tr id="user_@item.Id">
+                                <td>@i</td>
+                                <td>@item.UserName</td>
+                                <td>@item.Email</td>
+                                <td>@item.FullName</td>
+                                <td>@item.Phone</td>
+                                <td>
+                                    @*<button class="btn btn-sm btn-default " data-id="@item.Id">Sửa</button>*@
+                                    <button class="btn btn-sm btn-danger btnDelete" data-id="@item.Id">Xóa</button>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6">Không có tài khoản nào!!!</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+
+        </div>
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data("id");
+                var conf = confirm('Bạn có muốn xóa tài khoản này không?');
+                if (conf === true) {
+                    $.ajax({
+                        url: '/admin/account/delete',
+                        type: 'POST',
+                        data: {
+                            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                            id: id
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                $('#user_' + id).remove();
+                                alert("Xóa tài khoản thành công!");
+                            } else {
+                                alert("Có lỗi xảy ra, vui lòng thử lại.");
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

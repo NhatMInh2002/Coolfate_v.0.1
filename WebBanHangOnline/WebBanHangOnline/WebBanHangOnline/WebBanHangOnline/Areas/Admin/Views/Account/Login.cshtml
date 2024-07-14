@@ -1,0 +1,111 @@
+﻿@model WebBanHangOnline.Models.LoginViewModel
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutLogin.cshtml";
+
+
+}
+<style>
+    /* Style the card body */
+    .login-card-body {
+        
+        background-color: #f0f9ff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Style the login message */
+    .login-box-msg {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    /* Style the input groups */
+    .input-group {
+        margin-bottom: 15px;
+    }
+
+    /* Style the username and password fields */
+    .form-control {
+        border-radius: 5px;
+        border-color: #ccc;
+        padding: 10px 15px;
+    }
+
+    /* Style the input group text */
+    .input-group-text {
+        background-color: #f0f9ff;
+        border-color: #ccc;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    /* Style the toggle password button */
+    #toggle-password {
+        border-radius: 0 5px 5px 0;
+        border-color: #ccc;
+    }
+
+        #toggle-password:hover {
+            cursor: pointer;
+        }
+
+</style>
+@*  Tài khoản : Admin_NM
+    Mk        : 292002Minh*@
+<div class="card-body login-card-body">
+    <p class="login-box-msg">COOLFATE MANAGEMENT SYSTEM </p>
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true);
+        <div class="input-group mb-3">
+            @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "Tài khoản" })
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-envelope"></span>
+                </div>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            @Html.PasswordFor(x => x.Password, new { @class = "form-control", @placeholder = "Mật khẩu" })
+            @*<input type="password" class="form-control" placeholder="Password">*@
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="icheck-primary">
+                    @*<input type="checkbox" id="remember">*@
+                    @Html.CheckBoxFor(x => x.RememberMe)
+                    <label for="remember">
+                        Nhớ mật khẩu?
+                    </label>
+                </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+            </div>
+            <!-- /.col -->
+        </div>
+    }
+
+
+    <!-- /.social-auth-links -->
+
+    <p class="mb-1">
+        <a href="#">Quên mật khẩu ?</a>
+    </p>
+    @*<p class="mb-0">
+            <a href="register.html" class="text-center">Register a new membership</a>
+        </p>*@
+</div>

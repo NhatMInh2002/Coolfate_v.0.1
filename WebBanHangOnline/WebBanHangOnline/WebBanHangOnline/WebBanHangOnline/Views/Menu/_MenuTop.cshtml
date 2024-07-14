@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebBanHangOnline.Models.EF.Category>
+<style>
+    .main_nav_container {
+        background-color: black; /* Set background color to black */
+        padding: 10px 0; /* Add padding for better appearance */
+        overflow-y: auto; /* Add vertical scroll when content overflows */
+        max-height: 150px; /* Set maximum height for the container */
+    }
+
+    .navbar_menu li a {
+        color: white; /* Set default text color to white */
+        text-decoration: none; /* Remove underline from anchor links */
+        position: relative; /* Set position to relative for absolute positioning */
+    }
+
+        .navbar_menu li a:hover {
+            color: red; /* Màu văn bản sẽ thay đổi thành đỏ khi hover */
+        }
+
+            .navbar_menu li a:hover::after {
+                content: "";
+                color: red;
+                position: absolute; /* Set position to absolute */
+                top: 100%; /* Position it below the anchor */
+                left: 0; /* Align it with the left edge of the anchor */
+                width: 100%; /* Set width to 100% */
+                height: 10px; /* Set height of the overlay */
+                background-color: red; /* Set background color to gray */
+            }
+</style>
+@if (Model != null && Model.Any())
+{
+<ul class="navbar_menu">
+    @foreach (var item in Model)
+    {
+        if (item.Alias.Equals("trang-chu"))
+        {
+            item.Alias = "";
+        }
+        if (!string.IsNullOrEmpty(item.Link))
+        {
+            item.Alias = item.Link;
+        }
+        <li><a href="/@item.Alias">@item.Title</a></li>
+    }
+
+    @*<li><a href="#">shop</a></li>
+    <li><a href="#">promotion</a></li>
+    <li><a href="#">pages</a></li>
+    <li><a href="#">blog</a></li>
+    <li><a href="contact.html">contact</a></li>*@
+</ul>
+}
